@@ -1,0 +1,3 @@
+ALTER TABLE events
+ADD COLUMN is_paid BOOLEAN DEFAULT false,
+ADD COLUMN ticket_price DECIMAL(10, 2);
