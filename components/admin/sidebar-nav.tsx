@@ -31,26 +31,6 @@ export function SidebarNav() {
             </Link>
 
             <Link
-                href="/admin/events"
-                className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${isActive('/admin/events')
-                    ? 'bg-blue-600/20 text-blue-400 font-medium border border-blue-500/30'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                    }`}
-            >
-                <Calendar className="w-5 h-5" /> Events
-            </Link>
-
-            <Link
-                href="/admin/resources"
-                className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${isActive('/admin/resources')
-                    ? 'bg-blue-600/20 text-blue-400 font-medium border border-blue-500/30'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                    }`}
-            >
-                <BookOpen className="w-5 h-5" /> Resources
-            </Link>
-
-            <Link
                 href="/hackathon-portal"
                 className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${isActive('/hackathon-portal')
                     ? 'bg-emerald-600/20 text-emerald-400 font-medium border border-emerald-500/30'

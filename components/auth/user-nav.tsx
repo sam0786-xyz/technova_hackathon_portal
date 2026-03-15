@@ -45,12 +45,7 @@ export function UserNav({ user }: UserNavProps) {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-white/10" />
-                <DropdownMenuItem asChild>
-                    <Link href="/leaderboard" className="cursor-pointer text-gray-300 hover:text-white focus:text-white focus:bg-white/10">
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
-                        Leaderboard
-                    </Link>
-                </DropdownMenuItem>
+
                 <DropdownMenuItem asChild>
                     <Link href="/profile" className="cursor-pointer text-gray-300 hover:text-white focus:text-white focus:bg-white/10">
                         <User className="mr-2 h-4 w-4" />

@@ -11,7 +11,7 @@ interface NavbarProps {
         name?: string | null
         email?: string | null
         image?: string | null
-        role?: 'student' | 'admin' | 'super_admin' | 'evaluator'
+        role?: 'student' | 'admin' | 'super_admin' | 'evaluator' | 'student_lead'
     }
 }
 
@@ -31,8 +31,7 @@ export function Navbar({ user }: NavbarProps) {
     const authLinks: { href: string; label: string }[] = []
 
     const adminLinks = [
-        { href: "/admin/dashboard", label: "Admin" },
-        { href: "/scan", label: "Scanner" },
+        { href: "/hackathon-portal/scan", label: "Verify & Track" },
     ]
 
     const hackathonLink = { href: "/hackathon-portal", label: "Hackathon Portal" }

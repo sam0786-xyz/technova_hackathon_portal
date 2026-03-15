@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import { awardDailyXP } from '@/lib/xp'
-import { hasSubmittedEventFeedback } from '@/lib/actions/feedback'
+
 import { auth } from '@/lib/auth'
 import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
@@ -77,36 +76,11 @@ export async function POST(req: NextRequest) {
             }, { status: 400 })
         }
 
-        // 4. For online events requiring feedback, check if feedback submitted
-        if (registration.events?.is_virtual && registration.events?.requires_feedback_for_attendance) {
-            const feedbackSubmitted = await hasSubmittedEventFeedback(userId, eventId)
-            if (!feedbackSubmitted) {
-                return NextResponse.json({
-                    success: false,
-                    message: 'Please submit event feedback before checking in',
-                    requiresFeedback: true
-                }, { status: 400 })
-            }
-        }
 
-        // 5. Determine Check-in Date
-        // If checking in before event starts (e.g. early arrival), record as Day 1
-        let checkinDate = new Date()
-        if (eventStart && checkinDate < eventStart) {
-            checkinDate = new Date(eventStart)
-        }
 
-        // 6. Award daily XP for attendance (handles per-day deduplication for multi-day events)
-        const xpResult = await awardDailyXP(userId, eventId, {
-            event_type: registration.events?.event_type,
-            difficulty_level: registration.events?.difficulty_level,
-            start_time: registration.events?.start_time,
-            end_time: registration.events?.end_time,
-            is_multi_day: isMultiDay
-        }, checkinDate)
-
-        // Check if already checked in today (for multi-day events)
-        if (!xpResult.success && xpResult.message?.includes('Already checked in')) {
+        // 5. Handle Attendance Marking
+        // For single-day events, check if already attended
+        if (!isMultiDay && registration.attended) {
             const { data: existingUser } = await supabase
                 .schema('next_auth' as unknown as 'public')
                 .from('users')
@@ -116,12 +90,23 @@ export async function POST(req: NextRequest) {
 
             return NextResponse.json({
                 success: false,
-                message: isMultiDay ? 'Already checked in today' : 'Already checked in',
-                userName: existingUser?.name || 'Attendee',
-                daysCheckedIn: xpResult.daysCheckedIn,
-                remainingDays: xpResult.remainingDays,
-                eventDays: xpResult.eventDays
+                message: 'Already checked in',
+                userName: existingUser?.name || 'Attendee'
             }, { status: 400 })
+        }
+
+        // For multi-day events, simple tracking by marking attended=true
+        // Advanced day-by-day tracking required a dedicated table which was removed with XP
+        if (!registration.attended) {
+            const { error: updateError } = await supabase
+                .from('registrations')
+                .update({ attended: true })
+                .eq('id', registration.id)
+
+            if (updateError) {
+                console.error('Attendance update error:', updateError)
+                return NextResponse.json({ success: false, message: 'Failed to mark attendance' }, { status: 500 })
+            }
         }
 
         // 6. Mark as attended (first time only)
@@ -147,18 +132,8 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({
             success: true,
-            message: isMultiDay
-                ? `Day ${xpResult.daysCheckedIn} check-in successful!`
-                : 'Check-in successful',
-            userName: user?.name || 'Attendee',
-            xpAwarded: xpResult.xpAwarded,
-            xpMessage: xpResult.message,
-            // Daily XP distribution info
-            dailyXP: xpResult.dailyXP,
-            eventDays: xpResult.eventDays,
-            daysCheckedIn: xpResult.daysCheckedIn,
-            remainingDays: xpResult.remainingDays,
-            isMultiDay
+            message: 'Check-in successful',
+            userName: user?.name || 'Attendee'
         })
 
     } catch (err) {
