@@ -195,8 +195,8 @@ export default function HackathonPage() {
             <FloatingParticles />
 
             <div className="container mx-auto px-4 relative z-10 pt-24 pb-32">
-                <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-12 transition-colors">
-                    <ArrowLeft className="w-4 h-4" /> Back to Home
+                <Link href="/hackathon-portal" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-12 transition-colors">
+                    Go to Portal <ChevronRight className="w-4 h-4" />
                 </Link>
 
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -560,8 +560,8 @@ export default function HackathonPage() {
                     </div>
                 </div>
 
-                {/* Tracks Section */}
-                <div className="mt-32 max-w-6xl mx-auto w-full relative z-20">
+                {/* Tracks Section (Theme) */}
+                <div id="theme" className="mt-32 max-w-6xl mx-auto w-full relative z-20">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-black mb-4">Innovation Tracks</h2>
                         <p className="text-gray-400 max-w-2xl mx-auto">Choose your battlefield. We are looking for groundbreaking solutions across these key domains.</p>
@@ -721,7 +721,7 @@ export default function HackathonPage() {
                 </div>
 
                 {/* Sponsors Section */}
-                <div className="mt-32 max-w-6xl mx-auto w-full relative z-20">
+                <div id="sponsors" className="mt-32 max-w-6xl mx-auto w-full relative z-20">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-black mb-4">Our Sponsors & Partners</h2>
                         <p className="text-gray-400 max-w-2xl mx-auto">Backed by industry leaders who believe in fostering innovation and empowering the next generation of creators.</p>
@@ -814,7 +814,7 @@ export default function HackathonPage() {
                 </div>
 
                 {/* Prize Pool Section */}
-                <div className="mt-32 max-w-6xl mx-auto w-full relative z-20">
+                <div id="prize" className="mt-32 max-w-6xl mx-auto w-full relative z-20">
                     <div className="text-center mb-16 relative">
                         <div className="absolute inset-0 bg-yellow-500/10 blur-[100px] rounded-full w-1/2 mx-auto" />
                         <div className="inline-block relative z-10">
@@ -884,7 +884,7 @@ export default function HackathonPage() {
 
 
                 {/* Timeline - Full Width Alternating */}
-                <div className="mt-32 max-w-5xl mx-auto w-full relative z-20">
+                <div id="timeline" className="mt-32 max-w-5xl mx-auto w-full relative z-20">
                     <div className="text-center mb-16">
                         <div className="flex items-center justify-center gap-3 mb-4">
                             <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
@@ -1066,7 +1066,7 @@ export default function HackathonPage() {
 
 
                 {/* FAQ Section */}
-                <div className="mt-32 max-w-4xl mx-auto w-full relative z-20">
+                <div id="faqs" className="mt-32 max-w-4xl mx-auto w-full relative z-20">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl font-black mb-4">Frequently Asked Questions</h2>
                         <p className="text-gray-400">Everything you need to know about the Hackathon.</p>
